@@ -39,8 +39,14 @@ import {Request, Response} from "express";
                  .send("image_url query string parameter is required!");
 
     //return resp.send(imageUrl);
+    let filteredPath:string = null;
+    try {
+      filteredPath = await filterImageFromURL(imageUrl);
+    } catch (error) {
+      return resp.status(422)
+                 .send(error.toString());
 
-    let filteredPath:string = await filterImageFromURL(imageUrl);
+    }
 
     //return resp.send(filteredPath);
     return resp.sendFile(filteredPath,(err)=>{
